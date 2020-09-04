@@ -1,0 +1,12 @@
+$ ansible group1 -i /etc/ansible/hosts -m yum -a "name=java-1.8.0-openjdk state=present"
+
+$ ansible group1 -i /etc/ansible/hosts -m get_url -a "url=http://mirrors.estointernet.in/apache/tomcat/tomcat-
+8/v8.5.49/bin/apache-tomcat-8.5.49.tar.gz dest=/etc/ansible/tomcat.tar.gz"
+
+$ ansible group1 -i /etc/ansible/hosts -m command -a "/bin/tar -xvf /etc/ansible/tomcat.tar.gz"
+
+$ ansible group1 -i /etc/ansible/hosts -m command -a "/bin/mv /etc/ansible/apache-tomcat-8.5.49 /opt/tomcat"
+
+$ ansible group1 -i /etc/ansible/hosts -m file -a "path=/opt/tomcat/bin/catalina.sh mode=0777"
+
+$ ansible group1 -i /etc/ansible/hosts -m command -a "/bin/sh /opt/tomcat/bin/catalina.sh"
