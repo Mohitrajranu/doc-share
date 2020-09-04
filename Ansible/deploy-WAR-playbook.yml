@@ -1,0 +1,27 @@
+---
+
+- name: download WAR file from Artifactory
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: clear workspace
+    file: path=./Helloworldwebapp.war state=absent
+
+  - name: download WAR file
+    command: '/usr/bin/curl -uadmin:AP9uMRpWvT38NvYSyLW2J9NqQQH -O "http://ec2-18-224-182-155.us-east-2.compute.amazonaws.com:8081/artifactory/project2/Helloworldwebapp.war"'
+
+- name: deploy package
+  hosts: appserver
+  remote_user: ec2-user
+  become: true
+  gather_facts: false
+  tasks:
+
+  - name: deploy file to Tomcat
+    copy: src=./Helloworldwebapp.war dest=/opt/tomcat/webapps/
+
+  - name: tomcat engine restarted
+    command: '/usr/bin/nohup /opt/tomcat/bin/startup.sh &'
